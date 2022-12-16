@@ -1,5 +1,6 @@
 # 1004Java
-Main projects from my first C.S. course at Columbia. Taught by Professor Paul Blaer. 
 
-POKER
-NIM
+From Fall 2022 COMS 1004 - Introduction to Computer Science and Programming in Java 
+Taught by Prof. Paul Blaer 
+
+Only one main project: Video Poker
