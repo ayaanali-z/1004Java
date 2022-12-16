@@ -17,13 +17,12 @@ public class Game {
 	private Deck cards;
 	
 	public Game(String[] testHand){ // takes in command line arguments 
+		
 		p = new Player(); 
-
 		cards = new Deck(); 
 
 		for(String a: testHand) { 
 			String suit = "" + a.charAt(0); // determines suit 
-
 			int rank = 0; 
 
 			if(a.length() == 3) { // if it's a rank over 10 
@@ -34,32 +33,25 @@ public class Game {
 			else {
 				rank = Character.getNumericValue(a.charAt(1));
 			}  
+			
 			int suitNumber = 0; 
-
 			String spades = "s"; // suit comparables 
-
 			String clubs = "c"; 
-
 			String hearts = "h";
-
 			String diamonds = "d"; 
 
 			if(suit.equals(spades)) { 
 				suitNumber = 1;  
 			}
-
 			else if(suit.equals(clubs)) { 
 				suitNumber = 2; 
 			}
-
 			else if (suit.equals(hearts)) { 
 				suitNumber = 3; 
 			}
-
 			else if (suit.equals(diamonds)) { 
 				suitNumber = 4; 
 			}
-
 			Card testCard = new Card(suitNumber, rank); // adds cards 
 			p.addCard(testCard); 
 		}
@@ -67,26 +59,22 @@ public class Game {
 	
 	public Game(){
 		p = new Player(); // constructs player 
-
 		cards = new Deck(); // constructs deck 		
 	}
 	
 	public void play(){ // plays the game 
 		System.out.println("%$%$%$%$%$% WELCOME TO P O K E R %$%$%$%$%$%"); 
-
+		
 		Scanner input = new Scanner(System.in); 
 
 		System.out.println("You have " + p.getBankroll() + " tokens."); 
-
 		System.out.println("You can bet up to 5 tokens."); 
-
 		System.out.println("How much are you betting?"); 
 
 		double b = input.nextDouble(); // input bet 
 
 		while(b > 5 || b < 0) { // input validation 
 			System.out.println("Please bet between 1 to 5 tokens.");
-
 			b = input.nextDouble(); 
 		}
 
@@ -119,84 +107,62 @@ public class Game {
 	
 	public String checkHand(ArrayList<Card> hand){ 
 		int payout = 0; 
-
 		String yourHand = ""; 
-
+		
 		Collections.sort(hand); // sorts 
 
 		if(royalFlush(hand)) { // uses boolean methods below to evaluate hand
 			payout = 250; 
-
 			yourHand = "Wow! You have a royal flush!"; 
 		}
-
 		else if (straightFlush(hand)) { 
 			payout = 50; 
-
 			yourHand = "Wow! You have a straight flush!"; 
 		}
-
 		else if (fourOfAKind(hand)) { 
 			payout = 25; 
-
 			yourHand = "You have four of a kind!";
 		}
-
 		else if (fullHouse(hand)) { 
 			payout = 6; 
-
 			yourHand = "You have a full house!"; 
 		}
-
 		else if (flush(hand)) { 
 			payout = 5; 
-
 			yourHand = "You have a flush!"; 
 		}
-
 		else if (straight(hand)) { 
 			payout = 4; 
-
 			yourHand = "You have a straight!";
 		}
-
 		else if (threeOfAKind(hand)) { 
 			payout = 3; 
-
 			yourHand = "You have three of a kind!"; 
 		}
-
 		else if (twoPairs(hand)) { 
 			payout = 2; 
-
 			yourHand = "You have two pairs!"; 
 		}
-
 		else if(singlePair(hand)) { 
 			payout = 1;
-
 			yourHand = "You have one pair!"; 
 		}
-
 		else {
 			payout = 0; 
-
 			yourHand = "You have no pair... better luck next time!"; 
 		}
 
 		p.winnings(payout); // passes through payout into winnings method
-
+		
 		System.out.println("You have " + p.getBankroll() + " tokens.");  
 
 		return yourHand; // returns your winning, bankroll, and evaluated hand 
 	}
 	
 	public void deal() { // another deal method 
-
+		
 		if(p.getHand().size() == 0) { // if hand is completely empty 
-
 			for(int i = 0; i < 5; i++ ) { 
-
 				p.addCard(cards.deal()); // adds until hand size is 5 
 			}
 		}
@@ -220,8 +186,8 @@ public class Game {
 		}
 
 		for(int i = 0; i < replaceNumber; i++) {  // asks player which specific card
+			
 			System.out.println("Which card would you like to exchange?"); 
-
 			System.out.println("Please type its position from 1 to 5!!!!");
 
 			// player inputs the position of the card in the list, not its indice. 
@@ -230,11 +196,9 @@ public class Game {
 			int position = input.nextInt(); 
 
 			for(int j = 0; j < usedNumbers.size(); j++) { 
-
 				if(usedNumbers.get(j) == position) { /* if position has been inputted before 
 				the player will be reprompted */
 					System.out.println("You can't exchange a card twice! Try again."); 
-
 					position = input.nextInt(); 
 				}
 			}
@@ -242,10 +206,8 @@ public class Game {
 			int index = (position-1); // calculates indice 
 
 			p.removeCard(p.getCard(index)); // removes card at said indice 
-
 			p.addCard(cards.deal(), index); // adds card at at the same indice
 			// to maintain order 
-
 			usedNumbers.add(position); // adds input to used numbers arraylist 
 			}
 
@@ -260,14 +222,12 @@ public class Game {
 		int pairNumber = 0; 
 
 		for (int i = 0; i < 4; i++) { // loop to see if there's a single pair only
-			if(hand.get(i).getRank() == hand.get(i+1).getRank()) { 
-				
+			if(hand.get(i).getRank() == hand.get(i+1).getRank()) { 		
 				pairNumber++; 
 			}
 		}
 
 		if(pairNumber == 1 && !(fullHouse(hand))) { 
-
 			return true; /* checks to see if there's a full house first before 
 			calling it a single pair */
 		}
@@ -277,18 +237,15 @@ public class Game {
 
 	public boolean twoPairs(ArrayList<Card> hand) { 
 		int pairNumber = 0; 
-
+		
 		for (int i = 0; i < 4; i++) {
-			if(hand.get(i).getRank() == hand.get(i+1).getRank()) { 
-				
+			if(hand.get(i).getRank() == hand.get(i+1).getRank()) { 	
 				pairNumber++; 
 			}
-		}
-		
+		}	
 		if(pairNumber == 2) { // same exact procedure except checks for extra pair
 			return true;
 		}
-
 		return false; 
 	}
 	
@@ -297,10 +254,8 @@ public class Game {
 	
 		for (Card i: hand) { 
 			for(Card j: hand) {
-
 				if(i.getRank() == j.getRank()) { 
 					matches++; 
-
 				}
 			}
 			
@@ -308,7 +263,6 @@ public class Game {
 				return true; /* again checks for full house first before 
 				before calling it a three of a kind */
 			}
-
 			else { 
 				matches = 0; 
 			}
@@ -322,19 +276,16 @@ public class Game {
 		the minimum rank == 4 which means that there are no repeat 
 		ranks and the ranks are in increasing order-- a straight */
 		if ((!singlePair(hand) && !twoPairs(hand)) && 
-			(hand.get(4).getRank() - hand.get(0).getRank() == 4)) { 
-				
+			(hand.get(4).getRank() - hand.get(0).getRank() == 4)) { 	
 				return true; 
 			}
 		if(hand.get(0).getRank() == 10 && 
 				hand.get(1).getRank() == 11 && 
 				hand.get(2).getRank() == 12 && 
 				hand.get(3).getRank() == 13 && 
-				hand.get(4).getRank() == 1) { // special case with Aces
-				
+				hand.get(4).getRank() == 1) { // special case with Aces		
 				return true; 
 		}			
-		
 		return false; 
 	}
 
@@ -342,8 +293,7 @@ public class Game {
 		int suitNumber = 0; 
 		
 		for (int i = 0; i < 4; i++) { // sees if all the suits match
-			if(hand.get(i).getSuit() == hand.get(i+1).getSuit()) { 
-				
+			if(hand.get(i).getSuit() == hand.get(i+1).getSuit()) { 		
 				suitNumber++; 
 			}
 		}
@@ -351,11 +301,9 @@ public class Game {
 		if (suitNumber == 4) { // if 5 suits match, it's true 
 			return true;
 		}
-
 		else { 
 			suitNumber = 0;
 		}
-
 		return false; 
 	}
 
@@ -369,13 +317,10 @@ public class Game {
 		int sum2 = 1; 
 
 		for(int i = 1; i < 4; i++) { 
-			if (hand.get(i).getRank() == rank1) { 
-				
+			if (hand.get(i).getRank() == rank1) { 	
 				sum1++; // checks to see if there's more than one min rank
 			}
-
 			else if (hand.get(i).getRank() == rank2) { 
-				
 				sum2++; // checks to see if there's more than one max rank 
 			}
 		}
@@ -383,7 +328,6 @@ public class Game {
 		if((sum1 + sum2) == 5) { // 2 max ranks and 3 min ranks == 5 
 		// 2 min + 3 max = 5 
 		// if those conditions validate, then it's a full house. 
-			
 			return true; 
 		}
 
@@ -393,12 +337,11 @@ public class Game {
 	public boolean fourOfAKind(ArrayList<Card> hand) { 
 		int matches = 0; // same as three of a kind except for 4 matches
 		for (Card i: hand) { 
-
+			
 			for(Card j: hand) { 
 
 				if(i.getRank() == j.getRank()) { 
 					matches++; 
-
 				}
 			}
 
@@ -410,7 +353,6 @@ public class Game {
 				matches = 0; 
 			}
 		}
-
 		return false; 
 	}
 
@@ -418,7 +360,6 @@ public class Game {
 		int suitMatches = 0; 
 
 		for(int i = 0; i < 4; i++) { 
-		
 			if(hand.get(i).getSuit() == hand.get(i+1).getSuit()) { 
 				suitMatches++; 
 			}
@@ -428,9 +369,7 @@ public class Game {
 			return true; // if the suits match and it's a straight
 			// it's a  straight flush
 		}
-
 		return false; 
-
 	}
 
 	public boolean royalFlush(ArrayList<Card> hand) { 
@@ -441,13 +380,9 @@ public class Game {
 				hand.get(2).getRank() == 11 && 
 				hand.get(3).getRank() == 12 && 
 				hand.get(4).getRank() == 13) { 
-				
 				return true; 
-
 			}
 		}
-
 		return false; 
 	}
-
 }
